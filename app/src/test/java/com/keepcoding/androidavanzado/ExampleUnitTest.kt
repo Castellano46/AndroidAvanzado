@@ -1,4 +1,4 @@
-package com.example.androidavanzado
+package com.keepcoding.androidavanzado
 
 import org.junit.Test
 

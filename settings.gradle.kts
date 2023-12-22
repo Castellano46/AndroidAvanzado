@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AndroidAvanzado"
+rootProject.name = "Android Avanzado"
 include(":app")
