@@ -1,5 +1,5 @@
 package com.keepcoding.androidavanzado.ui.herolist
-//jfdg
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
