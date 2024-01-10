@@ -5,19 +5,25 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.keepcoding.androidavanzado.data.Repository
-import com.keepcoding.androidavanzado.domain.model.Hero
+import com.keepcoding.androidavanzado.domain.model.HeroUI
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class HeroListViewModel : ViewModel() {
+@HiltViewModel
+class HeroListViewModel @Inject constructor(private val repository: Repository) :
+    ViewModel() {
 
-    private val repository = Repository()
-
-    private val _heros = MutableLiveData<List<Hero>>()
-    val heros: LiveData<List<Hero>> get() =  _heros
+    private val _heros = MutableLiveData<List<HeroUI>>()
+    val heros: LiveData<List<HeroUI>> get() = _heros
 
     fun getHeroList() {
         viewModelScope.launch {
-            val heros = repository.getHeroList()
+            val heros = withContext(Dispatchers.IO) {
+                repository.getHeroList()
+            }
             _heros.value = heros
         }
     }
