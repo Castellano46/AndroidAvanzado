@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import com.keepcoding.androidavanzado.data.local.HeroDAO
 import com.keepcoding.androidavanzado.data.local.HeroDatabase
+import com.keepcoding.androidavanzado.data.local.LocalDataSource
+import com.keepcoding.androidavanzado.data.local.LocalDataSourceInterface
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,5 +28,10 @@ class LocalModule {
     @Provides
     fun providesHeroDao(db: HeroDatabase): HeroDAO {
         return db.heroDao()
+    }
+
+    @Provides
+    fun providesLocalDataSourceInterface(localDataSource: LocalDataSource): LocalDataSourceInterface {
+        return localDataSource
     }
 }

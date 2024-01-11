@@ -3,13 +3,13 @@ package com.keepcoding.androidavanzado.data.local
 import com.keepcoding.androidavanzado.domain.model.HeroLocal
 import javax.inject.Inject
 
-class LocalDataSource @Inject constructor(private val dao: HeroDAO) {
+class LocalDataSource @Inject constructor(private val dao: HeroDAO): LocalDataSourceInterface {
 
-    fun getHeros(): List<HeroLocal> {
+    override fun getHeros(): List<HeroLocal> {
         return dao.getAll()
     }
 
-    fun insertHeros(heros: List<HeroLocal>) {
+    override fun insertHeros(heros: List<HeroLocal>) {
         dao.insertAll(heros)
     }
 }

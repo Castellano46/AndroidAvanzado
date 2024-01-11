@@ -26,28 +26,13 @@ import java.lang.ref.WeakReference
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val adapter = HeroAdapter()
 
-    private val viewModel: HeroListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel.heros.observe(this) { heros ->
-            adapter.addHeros(heros)
-        }
 
-        val heroList = findViewById<RecyclerView>(R.id.hero_list)
-
-        val myButton = findViewById<Button>(R.id.my_button)
-        myButton.setOnClickListener {
-            viewModel.getHeroList()
-        }
-
-        heroList.adapter = adapter
-        heroList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        adapter.notifyDataSetChanged()
     }
 }

@@ -3,6 +3,7 @@ package com.keepcoding.androidavanzado.data
 import android.content.Context
 import android.util.Log
 import com.keepcoding.androidavanzado.data.local.LocalDataSource
+import com.keepcoding.androidavanzado.data.local.LocalDataSourceInterface
 import com.keepcoding.androidavanzado.data.mappers.LocalToUIMapper
 import com.keepcoding.androidavanzado.data.remote.RemoteDataSource
 import com.keepcoding.androidavanzado.domain.model.HeroLocal
@@ -12,7 +13,7 @@ import com.keepcoding.androidavanzado.domain.model.mapToLocal
 import javax.inject.Inject
 
 class Repository @Inject constructor(
-    private val localDataSource: LocalDataSource,
+    private val localDataSource: LocalDataSourceInterface,
     private val remoteDataSource: RemoteDataSource,
     private val localToUIMapper: LocalToUIMapper
 ) {
@@ -21,10 +22,8 @@ class Repository @Inject constructor(
         val localHeros: List<HeroLocal> = localDataSource.getHeros()
 
         return if (localHeros.isNotEmpty()) {
-            Log.d("HOLA", "LOCAL")
             localToUIMapper.map(localHeros)
         } else {
-            Log.d("HOLA", "REMOTE")
             val remoteHeros: List<HeroRemote> = remoteDataSource.getHeroList()
             localDataSource.insertHeros(remoteHeros.map { it.mapToLocal() })
 
