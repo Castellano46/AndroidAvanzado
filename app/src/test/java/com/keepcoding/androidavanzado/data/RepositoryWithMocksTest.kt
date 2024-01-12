@@ -2,6 +2,7 @@ package com.keepcoding.androidavanzado.data
 
 import com.keepcoding.androidavanzado.data.local.LocalDataSource
 import com.keepcoding.androidavanzado.data.mappers.LocalToUIMapper
+import com.keepcoding.androidavanzado.data.mappers.RemoteToUIMapper
 import com.keepcoding.androidavanzado.data.remote.RemoteDataSource
 import com.keepcoding.androidavanzado.domain.model.mapToLocal
 import com.keepcoding.androidavanzado.utils.generateLocalHeros
@@ -29,10 +30,11 @@ class RepositoryWithMocksTest {
     private val localDataSource: LocalDataSource = mockk()
     private val remoteDataSource: RemoteDataSource = mockk()
     private val localToUIMapper: LocalToUIMapper = LocalToUIMapper()
+    private val remoteToUIMapper: RemoteToUIMapper = RemoteToUIMapper()
 
     @Before
     fun setUp() {
-        repository = Repository(localDataSource, remoteDataSource, localToUIMapper)
+        repository = Repository(localDataSource, remoteDataSource, localToUIMapper, remoteToUIMapper)
     }
 
     @Test

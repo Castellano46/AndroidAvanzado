@@ -10,16 +10,26 @@ import coil.load
 import com.keepcoding.androidavanzado.R
 import com.keepcoding.androidavanzado.domain.model.HeroUI
 
-class HeroAdapter : RecyclerView.Adapter<HeroAdapter.HeroViewHolder>() {
+class HeroAdapter(private val onClick: (HeroUI) -> Unit) : RecyclerView.Adapter<HeroAdapter.HeroViewHolder>() {
 
     private val heros = mutableListOf<HeroUI>()
 
-    class HeroViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class HeroViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private lateinit var heroUI: HeroUI
 
         private val heroName = itemView.findViewById<TextView>(R.id.hero_name)
         private val heroPhoto = itemView.findViewById<ImageView>(R.id.hero_photo)
 
-        fun bind(heroUI: HeroUI){
+        init {
+            itemView.setOnClickListener {
+                onClick(heroUI)
+            }
+        }
+
+        fun bind(heroUI: HeroUI) {
+            this.heroUI = heroUI
+
             heroName.text = heroUI.name
             heroPhoto.load(heroUI.photo)
         }
@@ -38,7 +48,7 @@ class HeroAdapter : RecyclerView.Adapter<HeroAdapter.HeroViewHolder>() {
         holder.bind(heros[position])
     }
 
-    fun addHeros(heros: List<HeroUI>){
+    fun addHeros(heros: List<HeroUI>) {
         this.heros.clear()
         this.heros.addAll(heros)
         notifyDataSetChanged()

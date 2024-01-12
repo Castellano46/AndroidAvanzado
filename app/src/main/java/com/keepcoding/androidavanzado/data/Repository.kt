@@ -5,7 +5,9 @@ import android.util.Log
 import com.keepcoding.androidavanzado.data.local.LocalDataSource
 import com.keepcoding.androidavanzado.data.local.LocalDataSourceInterface
 import com.keepcoding.androidavanzado.data.mappers.LocalToUIMapper
+import com.keepcoding.androidavanzado.data.mappers.RemoteToUIMapper
 import com.keepcoding.androidavanzado.data.remote.RemoteDataSource
+import com.keepcoding.androidavanzado.domain.model.HeroDetailUI
 import com.keepcoding.androidavanzado.domain.model.HeroLocal
 import com.keepcoding.androidavanzado.domain.model.HeroRemote
 import com.keepcoding.androidavanzado.domain.model.HeroUI
@@ -15,7 +17,8 @@ import javax.inject.Inject
 class Repository @Inject constructor(
     private val localDataSource: LocalDataSourceInterface,
     private val remoteDataSource: RemoteDataSource,
-    private val localToUIMapper: LocalToUIMapper
+    private val localToUIMapper: LocalToUIMapper,
+    private val remoteToUIMapper: RemoteToUIMapper
 ) {
 
     suspend fun getHeroList(): List<HeroUI> {
@@ -30,5 +33,9 @@ class Repository @Inject constructor(
             val updatedLocalHeros: List<HeroLocal> = localDataSource.getHeros()
             localToUIMapper.map(updatedLocalHeros)
         }
+    }
+
+    suspend fun getHeroDetail(name: String): HeroDetailUI {
+        return remoteToUIMapper.map(remoteDataSource.getHeroDetail(name))
     }
 }

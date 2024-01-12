@@ -17,6 +17,10 @@
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.keepcoding.androidavanzado.ui.detail.MapFragment"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map">
+
+        <argument android:name="hero_name" app:argType="string"/>
+
+    </fragment>
 
 </navigation>

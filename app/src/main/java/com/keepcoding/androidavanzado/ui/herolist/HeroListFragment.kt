@@ -1,6 +1,7 @@
 package com.keepcoding.androidavanzado.ui.herolist
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,10 @@ class HeroListFragment : Fragment() {
     private var _binding: FragmentHeroListBinding? = null
     private val binding get() = _binding!!
 
-    private val adapter = HeroAdapter()
+    private val adapter = HeroAdapter {
+        Log.d("HEROS", it.name)
+        findNavController().navigate(HeroListFragmentDirections.actionHeroListFragmentToMapFragment(it.name))
+    }
 
     private val viewModel: HeroListViewModel by viewModels()
 
@@ -37,14 +41,11 @@ class HeroListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding){
+        viewModel.getHeroList()
+
+        with(binding) {
             heroList
             myButton
-
-            myButton.setOnClickListener {
-                //viewModel.getHeroList()
-                findNavController().navigate(R.id.action_heroListFragment_to_mapFragment)
-            }
 
             heroList.adapter = adapter
             heroList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -52,9 +53,15 @@ class HeroListFragment : Fragment() {
         }
 
         viewModel.heros.observe(viewLifecycleOwner) { heros ->
-            adapter.addHeros(heros)
-        }
+            when (heros) {
+                HeroListState.Error -> TODO()
+                HeroListState.Idle -> TODO()
+                HeroListState.Loading -> {
 
+                }
+                is HeroListState.Success -> adapter.addHeros(heros.heros)
+            }
+        }
 
 
     }
